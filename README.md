@@ -20,10 +20,10 @@ Gets a list of feature class names
     "FPC_Fairmount_Park",
     "FPC_Buildings_All",
     "FPC_Recreation_Facilities",
-	...
+	//...
 }
 ```
-### /feature-classes/<item>
+### /feature-classes/{item}
 Get basic info about feature class: name, file, shape type, fields
 ```json
 {
@@ -64,7 +64,7 @@ Get basic info about feature class: name, file, shape type, fields
   "shapeType": "Point"
 }
 ```
-### /feature-classes/<item>/metadata
+### /feature-classes/{item}/metadata
 Get feature class metadata as XML. Uses METADATA_TRANSLATOR environment
 variable for metadata schema.
 ```xml
