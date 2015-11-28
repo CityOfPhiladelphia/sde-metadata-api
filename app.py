@@ -1,8 +1,10 @@
 import os
 
 import arcpy
-from flask import Flask, jsonify, Response
+from flask import Flask, jsonify
+from flask.ext.cors import CORS
 from dotenv import load_dotenv
+import xmltodict
 
 # Load and set environment variables
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
@@ -11,6 +13,7 @@ METADATA_TRANSLATOR = os.environ.get('METADATA_TRANSLATOR')
 arcpy.env.workspace = os.environ.get('WORKSPACE')
 
 app = Flask(__name__)
+CORS(app)
 
 def dict_from_obj(obj, keys):
 	""" Helper to construct dict from object """
@@ -52,8 +55,8 @@ def metadata(item):
 		
 	arcpy.ExportMetadata_conversion(item, METADATA_TRANSLATOR, output_file)
 	with open(output_file) as f:
-		file_contents = f.read()
-	return Response(file_contents, mimetype='text/xml')
+		file_contents = xmltodict.parse(f.read())
+	return jsonify(file_contents)
 
 if __name__ == '__main__':
-	app.run(debug=False)
+	app.run(host='0.0.0.0')
